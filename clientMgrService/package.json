@@ -1,0 +1,23 @@
+{
+  "name": "client-manager-service",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xugaoyang <i@xugaoyang.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "date-fns": "^1.29.0",
+    "express": "^4.16.3",
+    "express-formidable": "^1.0.0",
+    "http-errors": "^1.6.3",
+    "log4js": "^3.0.2",
+    "mongoose": "^5.2.5",
+    "morgan": "^1.9.0",
+    "rx": "^4.1.0"
+  }
+}

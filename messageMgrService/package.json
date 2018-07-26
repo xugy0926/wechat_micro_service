@@ -1,0 +1,23 @@
+{
+  "name": "message-manager-service",
+  "version": "1.0.0",
+  "description": "api gateway for nodejs",
+  "main": "bin/www",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "api",
+    "gateway",
+    "nodejs"
+  ],
+  "author": "xugaoyang <i@xugaoyang.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "express": "^4.16.3",
+    "http-proxy": "^1.17.0",
+    "log4js": "^3.0.1",
+    "morgan": "^1.9.0"
+  }
+}
