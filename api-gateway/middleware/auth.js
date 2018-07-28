@@ -2,7 +2,7 @@ const jwt = require('jwt-simple')
 
 const config = require('../config')
 
-const auth = function (req, res, next) {
+const auth = (req, res, next) => {
   const token = req.headers[config.tokenTag] || ''
 
   if (!token) {

@@ -1,9 +1,10 @@
 const bodyParser = require('body-parser')
-const express = require('express')
 const createError = require('http-errors')
+const express = require('express')
 const morgan = require('morgan')
 
 const logger = require('./logger')
+const { save } = require('./db')
 
 const app = express()
 
@@ -13,8 +14,7 @@ app.use(bodyParser.json())
 
 app.post('/message/text/:tag', (req, res, next) => {
   const data = req.body
-  logger.info(data)
-  res.send()
+  save(data).then(() => res.send()).catch(next)
 })
 
 app.use((req, res, next) => {
@@ -22,9 +22,9 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  logger.info(err.toString())
+  logger.error(err)
   res.status(err.status || 500)
-  res.json({msg: err.toString()})
+  res.json({msg: err})
 })
 
 app.listen(9000)

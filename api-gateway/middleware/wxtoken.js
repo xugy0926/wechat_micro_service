@@ -6,8 +6,12 @@ const logger = require('../logger')
 
 const checkToken = (req, res) => {
   axios.get(`${serviceConfig['/client']}/client/${req.params.tag}`)
-    .then(response => response.data)
+    .then(response => response.data.client )
     .then(({ token }) => {
+      if (!token) {
+        throw new Error('tag not match token')
+      }
+
       const { signature, timestamp, nonce, echostr } = req.query
       const str = [token, timestamp, nonce].sort().join('')
       const hashCode = crypto.createHash('sha1')
@@ -17,7 +21,6 @@ const checkToken = (req, res) => {
         throw new Error('check token failed')
       }
 
-      logger.info('check token success')
       res.send(echostr)
     })
     .catch(err => {

@@ -1,11 +1,11 @@
+const createError = require('http-errors')
 const bodyParser = require('body-parser')
 const express = require('express')
-const createError = require('http-errors')
 const morgan = require('morgan')
 
 const logger = require('./logger')
 const { start, checkExpire } = require('./timingTask')
-const { save, findOne } = require('./db')
+const { save, find, findOne } = require('./db')
 
 const app = express()
 
@@ -14,27 +14,21 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.text({ type: 'text/xml' }))
 app.use(bodyParser.json())
 
-app.get('/client/:tag', async (req, res, next) => {
-  const { tag = '' } = req.params
-
-  try {
-    let doc = await findOne({ tag })
-    res.json(doc)
-  } catch (err) {
-    next(err)
-  }
+app.get('/client', (req, res, next) => {
+  find({}).then(clients => res.json(clients)).catch(next)
 })
 
-app.get('/client/accesstoken/:appId', async (req, res, next) => {
-  const { appId = '' }  = req.params
+app.get('/client/:tag', (req, res, next) => {
+  const { tag = '' } = req.params
+  findOne({tag}).then(client => res.json({client})).catch(next)
+})
 
-  try {
-    let { secretKey, expiresAt, accessToken } = await findOne({ appId })
+app.get('/client/accesstoken/:appId', (req, res, next) => {
+  const { appId = '' }  = req.params
+  findOne({ appId }).then(({ secretKey, expiresAt, accessToken }) => {
+    res.json({ accessToken})
     checkExpire(appId, secretKey, expiresAt)
-    res.json({ accessToken })
-  } catch (err) {
-    next(err)
-  }
+  }).catch(next)
 })
 
 app.post('/client', (req, res, next) => {
@@ -53,7 +47,7 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-  logger.info(err.toString())
+  logger.error(err)
   res.status(err.status || 500)
   res.json({msg: err.toString()})
 })
