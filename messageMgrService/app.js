@@ -12,7 +12,7 @@ app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.post('/message/text/:tag', (req, res, next) => {
+app.post('/message/:type/:tag', (req, res, next) => {
   const data = req.body
   save(data).then(() => res.send()).catch(next)
 })

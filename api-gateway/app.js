@@ -22,5 +22,4 @@ clientRouter.all('*', goto)
 app.use('/wx', wxRouter)
 app.use('/client', target('/client'), clientRouter)
 
-
 module.exports = app

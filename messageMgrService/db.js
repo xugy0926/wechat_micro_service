@@ -4,14 +4,78 @@ const config = require('./config')
 mongoose.connect(config.mongodbUrl, { useNewUrlParser: true })
 
 const Message = mongoose.model('Message', {
-  appId: { type: String, required: true },
-  format: { type: String, required: true },
-  ToUserName: { type: String, required: true },
-  FromUserName: { type: String, required: true },
-  CreateTime: { type: String, required: true },
-  MsgType: { type: String, required: true },
-  MsgId: { type: String, unique: true, unique: true },
-  Content: { type: String, required: true },
+  appId: { type: String },
+  format: { type: String },
+  MsgType: { type: String },
+  MsgId: { type: String, unique: true },
+  ToUserName: { type: String },
+  FromUserName: { type: String },
+  text: {
+    ToUserName: { type: String },
+    FromUserName: { type: String  },
+    CreateTime: { type: String },
+    MsgType: { type: String  },
+    Content: { type: String },
+    MsgId: { type: String }
+  },
+  image: {
+    ToUserName: { type: String },
+    FromUserName: { type: String  },
+    CreateTime: { type: String },
+    MsgType: { type: String  },
+    PicUrl: { type: String },
+    MediaId: { type: String },
+    MsgId: { type: String }
+  },
+  voice: {
+    ToUserName: { type: String },
+    FromUserName: { type: String  },
+    CreateTime: { type: String },
+    MsgType: { type: String  },
+    MediaId: { type: String },
+    Format: { type: String },
+    Recognition: { type: String },
+    MsgId: { type: String }
+  },
+  video: {
+    ToUserName: { type: String },
+    FromUserName: { type: String  },
+    CreateTime: { type: String },
+    MsgType: { type: String  },
+    MediaId: { type: String },
+    ThumbMediaId: { type: String },
+    MsgId: { type: String }
+  },
+  shortvideo: {
+    ToUserName: { type: String },
+    FromUserName: { type: String  },
+    CreateTime: { type: String },
+    MsgType: { type: String  },
+    MediaId: { type: String },
+    ThumbMediaId: { type: String },
+    MsgId: { type: String }
+  },
+  location: {
+    ToUserName: { type: String },
+    FromUserName: { type: String  },
+    CreateTime: { type: String },
+    MsgType: { type: String  },
+    Location_X: { type: String },
+    Location_Y: { type: String },
+    Scale: { type: String },
+    Lable: { type: String },
+    MsgId: { type: String }
+  },
+  link: {
+    ToUserName: { type: String },
+    FromUserName: { type: String  },
+    CreateTime: { type: String },
+    MsgType: { type: String  },
+    Title: { type: String },
+    Description: { type: String },
+    Url: { type: String },
+    MsgId: { type: String }
+  },
   createAt: { type: Date, default: Date.now },
   updateAt: { type: Date, default: Date.now }
 })

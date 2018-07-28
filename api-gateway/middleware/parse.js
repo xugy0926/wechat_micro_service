@@ -35,9 +35,11 @@ const parse = (req, res, next) => {
       return res.send(err)
     }
 
+    let data = {}
+
     if (wxdata.xml) {
       wxdata = wxdata.xml
-      wxdata.format = 'xml'
+      data.format = 'xml'
     }
 
     if (wxdata.json) {
@@ -45,10 +47,16 @@ const parse = (req, res, next) => {
       wxdata.format = 'json'
     }
 
+    data.MsgType = wxdata.MsgType
+    data.MsgId = wxdata.MsgId
+    data.ToUserName = wxdata.ToUserName
+    data.FromUserName = wxdata.FromUserName
+    data[data.MsgType] = wxdata
+
     findClient(req, tag).then(client => {
-      wxdata.appId = client.appId
-      wxdata.tag = req.params.tag
-      req.body = wxdata
+      data.appId = client.appId
+      data.tag = req.params.tag
+      req.body = data
       next()
     }).catch(next)
   })
