@@ -1,7 +1,6 @@
 const serviceConfig = require('../service_config')
 
 const wxtarget = (req, res, next) => {
-  req.body.type = '/wxmessage'
   switch (req.body.MsgType) {
     case 'text':
     case 'image':
@@ -10,8 +9,12 @@ const wxtarget = (req, res, next) => {
     case 'shortvideo':
     case 'location':
     case 'link':
+      req.body.type = '/wxmessage'
       req.target = serviceConfig[req.body.type] + '/message/' + req.body.MsgType
       break
+    case 'event': 
+      req.body.type = '/wxevent'
+      req.target = serviceConfig[req.body.type] + '/event/' + req.body.MsgType
     default:
       break
   }

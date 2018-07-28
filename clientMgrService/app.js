@@ -1,3 +1,4 @@
+const axios = require('axios')
 const createError = require('http-errors')
 const bodyParser = require('body-parser')
 const express = require('express')
@@ -18,21 +19,8 @@ app.get('/client', (req, res, next) => {
   find({}).then(clients => res.json(clients)).catch(next)
 })
 
-app.get('/client/:tag', (req, res, next) => {
-  const { tag = '' } = req.params
-  findOne({tag}).then(client => res.json({client})).catch(next)
-})
-
-app.get('/client/accesstoken/:appId', (req, res, next) => {
-  const { appId = '' }  = req.params
-  findOne({ appId }).then(({ secretKey, expiresAt, accessToken }) => {
-    res.json({ accessToken})
-    checkExpire(appId, secretKey, expiresAt)
-  }).catch(next)
-})
-
 app.post('/client', (req, res, next) => {
-  const data  = req.body
+  const data = req.body
 
   save(data)
     .then(() => {
@@ -40,6 +28,84 @@ app.post('/client', (req, res, next) => {
       checkExpire(data.appId, data.secretKey, data.expiresAt)
     })
     .catch(next)
+})
+
+app.get('/client/:tag', (req, res, next) => {
+  const { tag = '' } = req.params
+  findOne({ tag})
+    .then(client => res.json({ client}))
+    .catch(next)
+})
+
+app.get('/client/accesstoken/:appId', (req, res, next) => {
+  const { appId } = req.params
+  findOne({ appId})
+    .then(({ secretKey, expiresAt, accessToken }) => {
+      res.json({ accessToken})
+      checkExpire(appId, secretKey, expiresAt)
+    })
+    .catch(next)
+})
+
+app.get('/client/menu/:tag', (req, res, next) => {
+  const { tag } = req.params
+
+  findOne({ tag}).then(({ accessToken }) => {
+    return axios.get(`https://api.weixin.qq.com/cgi-bin/menu/get?access_token=${accessToken}`)
+      .then(response => response.data)
+  })
+    .then(({ errcode, errmsg, menu }) => {
+      if (errcode === 0 && errmsg === 'ok') {
+        res.json({errcode, errmsg, menu})
+      } else {
+        res.status(500).json({ errcode, errmsg})
+      }
+    })
+    .catch(next)
+})
+
+app.post('/client/menu/:tag', (req, res, next) => {
+  const { tag } = req.params
+  findOne({ tag}).then(({ accessToken }) => {
+    return axios.post(`https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${accessToken}`, req.body)
+      .then(response => response.data)
+  })
+    .then(({ errcode, errmsg }) => {
+      if (errcode === 0 && errmsg === 'ok') {
+        res.json({errcode, errmsg, menu})
+      } else {
+        res.status(500).json({ errcode, errmsg})
+      }
+    })
+    .catch(next)
+})
+
+app.delete('/client/menu/:tag', (req, res, next) => {
+  const { tag } = req.params
+  findOne({ tag}).then(({ accessToken }) => {
+    return axios.get(`https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=${accessToken}`, req.body)
+      .then(response => response.data)
+  })
+    .then(({ errcode, errmsg }) => {
+      if (errcode === 0 && errmsg === 'ok') {
+        res.json({errcode, errmsg})
+      } else {
+        res.status(500).json({ errcode, errmsg})
+      }
+    })
+    .catch(next)
+})
+
+app.get('/client/custommenu/:tag', (req, res, next) => {
+  const { tag } = req.params
+  findOne({ tag}).then(({ accessToken }) => {
+    return axios.get(`https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info?access_token=${accessToken}`, req.body)
+      .then(response => response.data)
+  })
+    .then(data => {
+      res.json(data)
+    })
+    .catch(next)  
 })
 
 app.use((req, res, next) => {
@@ -53,4 +119,4 @@ app.use((err, req, res, next) => {
 })
 
 start()
-app.listen(9001)
+app.listen(9000)

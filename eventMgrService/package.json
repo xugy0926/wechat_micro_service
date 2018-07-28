@@ -1,5 +1,5 @@
 {
-  "name": "message-manager-service",
+  "name": "event-manager-service",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -7,9 +7,10 @@
     "test": "mocha"
   },
   "keywords": [
-    "api",
-    "gateway",
-    "nodejs"
+    "node",
+    "nodejs",
+    "wechat",
+    "gateway"
   ],
   "author": "xugaoyang <i@xugaoyang.com>",
   "license": "MIT",
