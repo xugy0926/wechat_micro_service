@@ -3,10 +3,12 @@ const createError = require('http-errors')
 const bodyParser = require('body-parser')
 const express = require('express')
 const morgan = require('morgan')
+const R = require('ramda')
 
 const logger = require('./logger')
 const { start, checkExpire } = require('./timingTask')
 const { save, find, findOne } = require('./db')
+const { get } = require('./ips')
 
 const app = express()
 
@@ -14,6 +16,23 @@ app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.text({ type: 'text/xml' }))
 app.use(bodyParser.json())
+
+app.get('/client/ips', async (req, res, next) => {
+  try {
+    const clients = await find({})
+    let ips = []
+    for (let i = 0; i < clients.length; i++) {
+      let ip_list = await get(clients[i].accessToken)
+      ips = R.concat(ips, ip_list)
+    }
+
+    ips = R.uniq(ips)
+
+    res.json({ips})
+  } catch (err) {
+    next(err)
+  }
+})
 
 app.get('/client', (req, res, next) => {
   find({}).then(clients => res.json(clients)).catch(next)

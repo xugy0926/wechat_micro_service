@@ -17,11 +17,13 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
+    "express-ipfilter": "^0.3.1",
     "http-proxy": "^1.17.0",
     "jwt-simple": "^0.5.1",
     "log4js": "^3.0.1",
     "morgan": "^1.9.0",
     "ramda": "^0.25.0",
+    "rx": "^4.1.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
