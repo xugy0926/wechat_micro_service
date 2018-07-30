@@ -8,10 +8,9 @@ const interval = Rx.Observable.interval
 
 const updateIps = async (app) => {
   try {
-    const { ips } = await axios.get(`${serviceConfig['/client']}/client/ips`)
+    await axios.get(`${serviceConfig['/client']}/client/ips`)
       .then(response => response.data)
-    
-    app.white_ips = ips
+      .then(({ ips }) => { app.white_ips = ips })
   } catch (err) {
     logger.error(err)
   }

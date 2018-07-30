@@ -10,6 +10,7 @@ const Message = mongoose.model('Message', {
   MsgId: { type: String, unique: true },
   ToUserName: { type: String },
   FromUserName: { type: String },
+  CreateTime: { type: String },
   text: {
     ToUserName: { type: String },
     FromUserName: { type: String  },
@@ -89,8 +90,14 @@ const findOne = (conditions) => {
 }
 
 const save = (data) => {
-  const doc = new Message(data)
-  return doc.save()
+  return findOne({ MsgId: data.MsgId }).exec().then((doc) => {
+    if (doc) {
+      throw new Error('Duplicate messages');
+    }
+
+    const doc = new Message(data)
+    return doc.save()
+  })
 }
 
 module.exports = { find, findOne, save }

@@ -1,5 +1,5 @@
 {
-  "name": "event-manager-service",
+  "name": "user-manager-service",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",

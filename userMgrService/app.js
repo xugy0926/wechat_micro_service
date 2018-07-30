@@ -11,11 +11,6 @@ app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.post('/event/:type/:tag', (req, res, next) => {
-  const data = req.body
-  save(data).then(() => res.send()).catch(next)
-})
-
 app.use((req, res, next) => {
   next(createError(404))
 })
