@@ -9,8 +9,7 @@ const get = (accessToken) => {
     .then(response => response.data)
     .then(({ errcode, errmsg, ip_list}) => {
       if (errcode && errmsg) {
-        logger.error({ errcode, errmsg })
-        return { errcode, errmsg }
+        throw new Error(`errcode=${errcode}, errmsg=${errmsg}`)
       } else {
         return ip_list
       }

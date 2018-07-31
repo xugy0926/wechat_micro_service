@@ -5,6 +5,7 @@ const logger = require('./logger')
 const serviceConfig = require('./service_config')
 
 const interval = Rx.Observable.interval
+const timer = Rx.Observable.timer
 
 const updateIps = async (app) => {
   try {
@@ -12,13 +13,16 @@ const updateIps = async (app) => {
       .then(response => response.data)
       .then(({ ips }) => { app.white_ips = ips })
   } catch (err) {
-    logger.error(err)
+    logger.error(new Error(err.message || 'fetch ips error.'))
   }
 }
 
 const start = (app) => {
-  interval(5 * 1000).subscribe(() => {
+  timer(5000).subscribe(() => {
     updateIps(app)
+    interval(60 * 60 * 1000).subscribe(() => {
+      updateIps(app)
+    })
   })
 }
 

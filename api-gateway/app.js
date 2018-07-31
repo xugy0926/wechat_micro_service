@@ -16,7 +16,7 @@ app.use(bodyParser.text({ type: 'text/xml' }))
 
 const wxRouter = express.Router()
 wxRouter.get('/:tag', checkToken)
-wxRouter.post('/:tag', ipfilter(app.ips, {mode: 'allow'}), parse, wxtarget, goto)
+wxRouter.post('/:tag', /* ipfilter(app.ips, {mode: 'allow'}),*/ parse, wxtarget, goto)
 
 const clientRouter = express.Router()
 clientRouter.all('*', goto)

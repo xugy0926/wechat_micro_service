@@ -90,14 +90,9 @@ const findOne = (conditions) => {
 }
 
 const save = (data) => {
-  return findOne({ MsgId: data.MsgId }).exec().then((doc) => {
-    if (doc) {
-      throw new Error('Duplicate messages');
-    }
-
-    const doc = new Message(data)
-    return doc.save()
-  })
+  // data.MsgId is unique.
+  const doc = new Message(data)
+  return doc.save()
 }
 
 module.exports = { find, findOne, save }
