@@ -35,7 +35,7 @@ app.get('/client/ips', async (req, res, next) => {
 })
 
 app.get('/client', (req, res, next) => {
-  find({}).then(clients => res.json(clients)).catch(next)
+  find({}).then(clients => res.json({ clients })).catch(next)
 })
 
 app.post('/client', (req, res, next) => {

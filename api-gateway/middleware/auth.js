@@ -1,4 +1,6 @@
+const crypto = require('crypto')
 const jwt = require('jwt-simple')
+const R = require('ramda')
 
 const config = require('../config')
 
@@ -29,4 +31,26 @@ const auth = (req, res, next) => {
   }
 }
 
-module.exports = auth
+const wxauth = (req, res, next) => {
+  const tag = req.params.tag || ''
+  let client = R.find(R.propEq('tag', tag))(req.app.clients || [])
+
+  if (!client) {
+    req.wxauth = { code: 0, msg: 'no client.'  }
+  }
+
+  const { signature, timestamp, nonce, echostr } = req.query
+  const str = [client.token, timestamp, nonce].sort().join('')
+  const hashCode = crypto.createHash('sha1')
+  const secretCode = hashCode.update(str, 'utf8').digest('hex')
+
+  if (secretCode === signature) {
+    req.wxauth = { code: 1, result: echostr }
+    next()
+  } else {
+    res.send('mismatch')
+  }
+}
+
+module.exports = { auth, wxauth }
+
