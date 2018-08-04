@@ -32,15 +32,9 @@ const auth = (req, res, next) => {
 }
 
 const wxauth = (req, res, next) => {
-  const tag = req.params.tag || ''
-  let client = R.find(R.propEq('tag', tag))(req.app.clients || [])
-
-  if (!client) {
-    req.wxauth = { code: 0, msg: 'no client.'  }
-  }
-
+  const { token = '' } = req.client
   const { signature, timestamp, nonce, echostr } = req.query
-  const str = [client.token, timestamp, nonce].sort().join('')
+  const str = [token, timestamp, nonce].sort().join('')
   const hashCode = crypto.createHash('sha1')
   const secretCode = hashCode.update(str, 'utf8').digest('hex')
 
@@ -52,5 +46,4 @@ const wxauth = (req, res, next) => {
   }
 }
 
-module.exports = { auth, wxauth }
-
+module.exports = { auth, wxauth}

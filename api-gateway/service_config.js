@@ -1,5 +1,5 @@
 module.exports = {
-  '/client': 'http://localhost:9000',
-  '/message': 'http://localhost:9001',
-  '/event': 'http://localhost:9001'
+  '/client': 'http://127.0.0.1:9000',
+  '/message': 'http://127.0.0.1:9001',
+  '/event': 'http://127.0.0.1:9001'
 }

@@ -52,7 +52,7 @@ app.post('/client', (req, res, next) => {
 app.get('/client/:tag', (req, res, next) => {
   const { tag = '' } = req.params
   findOne({ tag})
-    .then(client => res.json({ client}))
+    .then(client => res.json({ client }))
     .catch(next)
 })
 
@@ -77,7 +77,7 @@ app.get('/client/menu/:tag', (req, res, next) => {
       if (errcode === 0 && errmsg === 'ok') {
         res.json({errcode, errmsg, menu})
       } else {
-        res.status(500).json({ errcode, errmsg})
+        res.status(500).json({ errcode, errmsg })
       }
     })
     .catch(next)
@@ -93,7 +93,7 @@ app.post('/client/menu/:tag', (req, res, next) => {
       if (errcode === 0 && errmsg === 'ok') {
         res.json({errcode, errmsg, menu})
       } else {
-        res.status(500).json({ errcode, errmsg})
+        res.status(500).json({ errcode, errmsg })
       }
     })
     .catch(next)
@@ -109,7 +109,7 @@ app.delete('/client/menu/:tag', (req, res, next) => {
       if (errcode === 0 && errmsg === 'ok') {
         res.json({errcode, errmsg})
       } else {
-        res.status(500).json({ errcode, errmsg})
+        res.status(500).json({ errcode, errmsg })
       }
     })
     .catch(next)

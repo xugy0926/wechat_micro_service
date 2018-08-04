@@ -3,7 +3,7 @@ const express = require('express')
 const morgan = require('morgan')
 const ipfilter = require('express-ipfilter').IpFilter
 
-const clients = require('./middleware/clients')
+const client = require('./middleware/client')
 const { wxauth } = require('./middleware/auth')
 const { wxtarget, target } = require('./middleware/target')
 const { parse } = require('./middleware/parse')
@@ -16,10 +16,10 @@ app.use(morgan('tiny'))
 app.use(bodyParser.text({ type: 'text/xml' }))
 
 const wxRouter = express.Router()
-wxRouter.get('/:tag', clients, wxauth, (req, res) => {
+wxRouter.get('/:tag', client, wxauth, (req, res) => {
   res.send(req.wxauth.result)
 })
-wxRouter.post('/:tag', ipfilter(app.whiteips, {mode: 'allow'}), wxauth, parse, wxtarget, goto)
+wxRouter.post('/:tag', /*ipfilter(app.whiteips, {mode: 'allow'}),*/ client, wxauth, parse, wxtarget, goto)
 
 const clientRouter = express.Router()
 clientRouter.all('*', goto)

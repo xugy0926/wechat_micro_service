@@ -14,23 +14,34 @@ const randomReply = (data) => {
     toUser: data.FromUserName,
     fromUser: data.ToUserName,
     createTime: new Date().getTime(),
-    mediaId: 'bk2EFdxmhuzmbbxuEzCTcMxXInOJAl-zOTclDGFFDbF9EhiuJ7Sv-aMTU_r_otSE'
+    mediaId: 'nbb3MyrimlVTyytWfnCA_eTAFbLghypZx2K_pDZUwRMMcGuhas2oUJ_-9W5r_f-6'
   }))
 
   replyList.push(voice({
     toUser: data.FromUserName,
     fromUser: data.ToUserName,
     createTime: new Date().getTime(),
-    mediaId: 'ft-kI3nAJZ-X6Pp1VS6f2V8HporVpqDVlgWzdJylYZiwh_6KxNUFQlvXUfPlgWXr'
+    mediaId: 'x1Or3sO0ugUP2ETkEURSmSceSWeoAVETLyxunQbP1ybdNiN7PHw835UcnCS3TnX5'
   }))
 
   replyList.push(video({
     toUser: data.FromUserName,
     fromUser: data.ToUserName,
     createTime: new Date().getTime(),
-    mediaId: '_1TnyQ4-FESiAZFwzy-YLnwLjSFvSkV2dDyvtgcbxaiUAtt-e5GMwCwgSJmp4Wn8',
+    mediaId: 'Er5AavYb2gxbbyWrsANMPkjMFs9mIHkxpaKGO8WWrks8yTe71ookDHarbE2ptiAQ',
     title: 'hi',
     description: 'iamxugaoyang'
+  }))
+
+  replyList.push(music({
+    toUser: data.FromUserName,
+    fromUser: data.ToUserName,
+    createTime: new Date().getTime(),
+    title: 'a music',
+    description: 'this is a music',
+    musicUrl: '  http://url.cn/5SXRwLl',
+    hqMusicUrl: '  http://url.cn/5SXRwLl',
+    thumbMediaId: 'nbb3MyrimlVTyytWfnCA_eTAFbLghypZx2K_pDZUwRMMcGuhas2oUJ_-9W5r_f-6'
   }))
 
   replyList.push(news({
