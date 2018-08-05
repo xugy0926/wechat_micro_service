@@ -4,7 +4,7 @@ const morgan = require('morgan')
 const ipfilter = require('express-ipfilter').IpFilter
 
 const client = require('./middleware/client')
-const { wxauth } = require('./middleware/auth')
+const { auth, wxauth } = require('./middleware/auth')
 const { wxtarget, target } = require('./middleware/target')
 const { parse } = require('./middleware/parse')
 const { goto } = require('./middleware/proxy')
@@ -24,8 +24,13 @@ wxRouter.post('/:tag', /*ipfilter(app.whiteips, {mode: 'allow'}),*/ client, wxau
 const clientRouter = express.Router()
 clientRouter.all('*', goto)
 
+const userRouter = express.Router()
+userRouter.post('/signup', goto)
+userRouter.post('/signin', goto)
+
 app.use('/wx', wxRouter)
-app.use('/client', target('/client'), clientRouter)
+app.use('/client', auth, target('/client'), clientRouter)
+app.use('/user', target('/user'), userRouter)
 
 start(app)
 

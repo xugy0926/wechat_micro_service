@@ -15,7 +15,7 @@ const auth = (req, res, next) => {
   try {
     const decoded = jwt.decode(token, config.secretKey)
 
-    if (!decoded.user_id || !decoded.user_name || !decoded.exp) {
+    if (!decoded._id || !decoded.name || !decoded.exp) {
       res.status(401).json({ msg: 'Access token illegal' })
       return
     }
