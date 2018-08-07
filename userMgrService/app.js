@@ -21,22 +21,25 @@ app.post('/user/signin', (req, res, next) => {
   const password = req.body.password
 
   findOne({ name })
-    .then(user => user.toObject())
     .then(user => {
       if (user) {
-        if (bcrypt.compareSync(password, user.password)) {
-          const token = jwt.encode(
-            Object.assign(user, {
-              exp: addDays(new Date(), 30).valueOf()
-            }),
-            config.secret)
-
-          res.json({user, token})
-        } else {
-          throw new Error('密码错误')
-        }
+        return user.toObject()
       } else {
         throw new Error('账号不存在')
+      }
+    })
+    .then(user => {
+      if (bcrypt.compareSync(password, user.password)) {
+        delete user.password
+        const token = jwt.encode(
+          Object.assign(user, {
+            exp: addDays(new Date(), 30).valueOf()
+          }),
+          config.secret)
+
+        res.json({ user, token })
+      } else {
+        throw new Error('密码错误')
       }
     })
     .catch(next)
@@ -64,7 +67,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   logger.error(err)
   res.status(err.status || 500)
-  res.json({msg: err.toString()})
+  res.json({ msg: err.toString() })
 })
 
 app.listen(9002)
