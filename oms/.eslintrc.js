@@ -40,10 +40,17 @@ module.exports = {
         'e' // for e.returnvalue
       ]
     }],
+    'no-shadow': ['error', {
+      'builtinGlobals': false, 'hoist': 'functions', 'allow': ['state']
+    }],
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
       optionalDependencies: ['test/unit/index.js']
     }],
+    'arrow-parens': ['error', 'as-needed'],
+    'semi': ['error', 'never'],
+    'comma-dangle': ['error', 'never'],
+    'no-console': ['error', { 'allow': ['warn', 'error'] }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }

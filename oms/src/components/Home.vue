@@ -4,17 +4,17 @@
 </template>
 
 <script>
-import router from '../router';
+import router from '../router'
 
 export default {
   name: 'Home',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
-    };
+      msg: 'Welcome to Your Vue.js App'
+    }
   },
   created() {
-    router.push('signin');
-  },
-};
+    router.push('signin')
+  }
+}
 </script>
