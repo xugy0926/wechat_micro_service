@@ -38,4 +38,4 @@ const parse = (req, res, next) => {
   })
 }
 
-module.exports = { parse}
+module.exports = { parse }

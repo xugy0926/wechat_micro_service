@@ -19,7 +19,7 @@ app.use(cors())
 app.use(morgan('tiny'))
 app.use(bodyParser.text({ type: 'text/xml' }))
 
-app.use('/wx', ipfilter, client, wxauth, wxRouter)
+app.use('/wx/:tag', ipfilter, client, wxauth, wxRouter)
 app.use('/client', auth, target('/client'), goto)
 app.use('/user', target('/user'), userRouter)
 

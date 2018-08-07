@@ -6,10 +6,10 @@ const { goto } = require('../middleware/proxy')
 
 const router = express.Router()
 
-router.get('/:tag', (req, res) => {
+router.get('/', (req, res) => {
   res.send(req.wxauth.result)
 })
 
-router.post('/:tag', parse, wxtarget, goto)
+router.post('/', parse, wxtarget, goto)
 
 module.exports = router
