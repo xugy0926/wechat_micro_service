@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-ipfilter": "^0.3.1",
     "http-proxy": "^1.17.0",
