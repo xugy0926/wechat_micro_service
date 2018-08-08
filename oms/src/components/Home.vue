@@ -1,20 +1,17 @@
 <template>
-  <div class="hello">
-  </div>
+  <v-container grid-list-xl>
+    <div>{{ msg }}</div>
+  </v-container>
 </template>
 
 <script>
-import router from '../router'
 
 export default {
-  name: 'Home',
+  name: 'home',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to wechat_micro_service'
     }
-  },
-  created() {
-    router.push('signin')
   }
 }
 </script>

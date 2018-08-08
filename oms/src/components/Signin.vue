@@ -29,6 +29,7 @@
 
 <script>
 import signin from '../api/signin'
+import router from '../router'
 
 export default {
   name: 'signin',
@@ -49,8 +50,9 @@ export default {
   methods: {
     submit() {
       signin(this.name, this.password)
-        .then(data => {
-          console.warn(data)
+        .then(({ token }) => {
+          this.$cookie.set('token', token, 30)
+          router.push({ name: 'home' })
         })
         .catch(err => {
           console.error(err)

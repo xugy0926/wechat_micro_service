@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app blue>
   <v-navigation-drawer
     fixed
     :mini-variant="miniVariant"
@@ -7,7 +7,11 @@
     v-model="drawer"
     app>
     <v-list>
-      <v-list-tile :value="true" v-for="item in items" :key="item.title">
+      <v-list-tile
+        :value="true"
+        v-for="item in items"
+        :key="item.title"
+        @click="onclick(item.name)">
         <v-list-tile-action>
           <v-icon light v-html="item.icon"></v-icon>
         </v-list-tile-action>
@@ -34,11 +38,6 @@
     </v-btn>
     <v-toolbar-title v-text="title"></v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn
-      icon
-      @click.native.stop="rightDrawer = !rightDrawer">
-      <v-icon>menu</v-icon>
-    </v-btn>
   </v-toolbar>
   <main>
     <v-content>
@@ -47,21 +46,6 @@
       </v-container>
     </v-content>
   </main>
-  <v-navigation-drawer
-    fixed
-    temporary
-    :right="right"
-    v-model="rightDrawer"
-    app>
-    <v-list>
-      <v-list-tile @click.native="right = !right">
-        <v-list-tile-action>
-          <v-icon light>compare_arrows</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-title>Switch drawer (click me)</v-list-tile-title>
-      </v-list-tile>
-    </v-list>
-  </v-navigation-drawer>
   <v-footer :fixed="fixed" app>
     <span>&copy; 2018</span>
   </v-footer>
@@ -69,6 +53,7 @@
 </template>
 
 <script>
+import router from './router'
 
 export default {
   name: 'App',
@@ -78,10 +63,20 @@ export default {
       clipped: true,
       drawer: true,
       fixed: false,
-      items: [{ icon: 'bubble_chart', title: 'Inspire' }],
+      items: [{ icon: 'bubble_chart', title: 'clients', name: 'clients' }],
       miniVariant: false,
       right: true,
       rightDrawer: false
+    }
+  },
+  created() {
+    if (!this.$cookie.get('token')) {
+      router.push('signin')
+    }
+  },
+  methods: {
+    onclick(name) {
+      router.push(name)
     }
   }
 }
