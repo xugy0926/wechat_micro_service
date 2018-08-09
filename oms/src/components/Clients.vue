@@ -35,12 +35,18 @@
               label="token"
               required
             ></v-text-field>
+            <v-text-field
+              v-model="adminOpenId"
+              :rules="inputRules"
+              label="adminOpenId"
+              required
+            ></v-text-field>
           </v-form>
         </div>
       </v-card-title>
       <v-card-actions>
         <v-btn flat color="orange"
-          @click="addClient({name, tag, appId, secretKey, token})">Add</v-btn>
+          @click="addClient({name, tag, appId, secretKey, token, adminOpenId})">Add</v-btn>
       </v-card-actions>
     </v-card>
     </v-layout>
@@ -57,6 +63,7 @@
           <td>{{ props.item.secretKey }}</td>
           <td>{{ props.item.token }}</td>
           <td>{{ props.item.accessToken ? 'success' : 'failed' }}</td>
+          <td>{{ props.item.adminOpenId }}</td>
         </template>
       </v-data-table>
     </v-flex>
@@ -84,7 +91,8 @@ export default {
         { text: 'APPID', value: 'appId' },
         { text: 'SECRET KEY', value: 'secretKey' },
         { text: 'TOKEN', value: 'token' },
-        { text: 'ACCESSTOKEN', value: 'accessToken' }
+        { text: 'ACCESSTOKEN', value: 'accessToken' },
+        { text: 'ACCESSTOKEN', value: 'adminOpenId' }
       ]
     }
   },

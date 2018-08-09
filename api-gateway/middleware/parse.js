@@ -33,6 +33,7 @@ const parse = (req, res, next) => {
 
     data.appId = appId
     data.tag = tag
+    data.client = req.client
     req.body = data
     next()
   })

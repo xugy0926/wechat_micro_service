@@ -9,7 +9,8 @@ const Client = mongoose.model('Client', {
   appId: { type: String, required: true, unique: true },
   secretKey: { type: String, required: true, unique: true },
   token: { type: String, required: true, unique: true },
-  accessToken: { type: String, unique: true },
+  accessToken: { type: String },
+  adminOpenId: { type: String, required: true },
   expiresIn: { type: Number, default: 0 },
   expiresAt: { type: Number, default: 0 },
   createAt: { type: Date, default: Date.now},
@@ -24,12 +25,8 @@ const findOne = (conditions) => {
   return Client.findOne(conditions).exec()
 }
 
-const save = ({ name, tag, appId, secretKey, token }) => {
-  if (!name || !tag || !appId || !secretKey || !token) {
-    return Promise.reject(new Error('参数错误'))
-  }
-
-  const doc = new Client({ name, tag, appId, secretKey, token })
+const save = (data) => {
+  const doc = new Client(data)
   return doc.save()
 }
 

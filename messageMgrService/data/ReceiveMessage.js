@@ -1,9 +1,6 @@
 const mongoose = require('mongoose')
-const config = require('./config')
 
-mongoose.connect(config.mongodbUrl, { useNewUrlParser: true })
-
-const Message = mongoose.model('Message', {
+const ReceiveMessage = mongoose.model('ReceiveMessage', {
   appId: { type: String },
   format: { type: String },
   MsgType: { type: String },
@@ -21,7 +18,7 @@ const Message = mongoose.model('Message', {
   },
   image: {
     ToUserName: { type: String },
-    FromUserName: { type: String  },
+    FromUserName: { type: String },
     CreateTime: { type: String },
     MsgType: { type: String  },
     PicUrl: { type: String },
@@ -82,16 +79,16 @@ const Message = mongoose.model('Message', {
 })
 
 const find = (conditions) => {
-  return Message.find(conditions).exec()
+  return ReceiveMessage.find(conditions).exec()
 }
 
 const findOne = (conditions) => {
-  return Message.findOne(conditions).exec()
+  return ReceiveMessage.findOne(conditions).exec()
 }
 
 const save = (data) => {
   // data.MsgId is unique.
-  const doc = new Message(data)
+  const doc = new ReceiveMessage(data)
   return doc.save()
 }
 

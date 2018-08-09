@@ -4,7 +4,9 @@ const express = require('express')
 const morgan = require('morgan')
 
 const logger = require('./logger')
-const { save } = require('./db')
+const { AutoReply, ReceiveMessage } = require('./data')
+const reply = require('./reply')
+const executeCmd = require('./middleware/executeCmd')
 
 const app = express()
 
@@ -12,10 +14,11 @@ app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.post('/message/:type/:tag', (req, res, next) => {
-  const data = req.body
-  const randomReply = require('./template/testReplyMsg')
-  save(data).then(() => res.send(randomReply(data))).catch(next)
+app.post('/message/:type/:tag', executeCmd, (req, res, next) => {
+  ReceiveMessage.save(req.body)
+    .then(reply)
+    .then(res.send.bind(res))
+    .catch(next)
 })
 
 app.post('/event/subscribe', (req, res, next) => {
@@ -37,6 +40,12 @@ app.post('/event/click', (req, res, next) => {
   const { EventKey } = req.body.event
 })
 
+app.post('/reply/auto/:tag', (req, res, next) => {
+  AutoReply.save(req.body)
+    .then(res.json)
+    .catch(next)
+})
+
 app.use((req, res, next) => {
   next(createError(404))
 })
@@ -44,7 +53,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   logger.error(err)
   res.status(err.status || 500)
-  res.json({msg: err})
+  res.json({ msg: err })
 })
 
 app.listen(9001)

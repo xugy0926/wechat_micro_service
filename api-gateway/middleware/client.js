@@ -4,7 +4,7 @@ const serviceConfig = require('../service_config')
 const client = (req, res, next) => {
   axios.get(`${serviceConfig['/client']}/client/${req.params.tag}`)
     .then(response => response.data)
-    .then(({ client }) => {
+    .then((client) => {
       req.client = client
       next()
     })

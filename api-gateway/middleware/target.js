@@ -9,10 +9,10 @@ const wxtarget = (req, res, next) => {
     case 'shortvideo':
     case 'location':
     case 'link':
-      req.target = `${serviceConfig['/message']}/message/${req.body.MsgType}/${req.params.tag}`
+      req.target = `${serviceConfig['/message']}/message/${req.body.MsgType}/${req.client.tag}`
       break
     case 'event': 
-      req.target = `${serviceConfig['/event/']}${req.body.MsgType}/${req.params.tag}`
+      req.target = `${serviceConfig['/event/']}${req.body.MsgType}/${req.client.tag}`
     default:
       break
   }

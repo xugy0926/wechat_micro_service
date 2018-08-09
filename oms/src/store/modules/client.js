@@ -14,14 +14,13 @@ const getters = {
 const actions = {
   async getClients({ commit }) {
     try {
-      const { clients } = await clientAPI.getClients()
+      const clients = await clientAPI.getClients()
       commit('setClients', clients)
     } catch (err) {
       console.error(err)
     }
   },
   async addClient({ commit }, client) {
-    console.warn(client)
     const data = await clientAPI.addClient(client)
     commit('addClient', data.client)
   }

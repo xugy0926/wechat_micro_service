@@ -21,6 +21,7 @@ app.use(bodyParser.text({ type: 'text/xml' }))
 
 app.use('/wx/:tag', ipfilter, client, wxauth, wxRouter)
 app.use('/client', auth, target('/client'), goto)
+app.use('/reply', auth, target('/message'), goto)
 app.use('/user', target('/user'), userRouter)
 
 start(app)
