@@ -1,7 +1,8 @@
-const axios = require('axios')
+const R = require('ramda')
 const { count, insertMany } = require('../db')
-const config = require('../config')
 const logger = require('../logger')
+
+const { wxapi, wxrequest } = require('../wxPublicApi')
 
 const LIMIT = 100;
 
@@ -10,26 +11,22 @@ const sync = async (type, client) => {
     let localAllCount = await count()
     let run = true
 
+    console.error(localAllCount);
     while (run) {
-      await axios.post(`${config.wxURL}/material/batchget_material?access_token=${client.accessToken}`, {
-        'type': type,
-        'offset': localAllCount,
-        'count': LIMIT
-      })
-        .then(response => response.data)
-        .then(({ errcode, errmsg, ...data }) => {
-          if (errcode && errmsg) {
-            logger.error(`${errocode} &&&& ${errmsg}`)
-            return {}
-          } else {
-            return data
-          }
-        })
+      await wxrequest(wxapi.getMaterialList, {
+            params: wxapi.getMaterialList.params(client.accessToken),
+            data: wxapi.getMaterialList.data({
+              type: type,
+              offset: localAllCount,
+              count: LIMIT
+            })
+          })
         .then(({ total_count, item_count, item }) => {
-          item.forEach(i => {
+          item && item.forEach(i => {
             return Object.assign(i, { appId: client.appId, type, title: i.content.news_item[0].title })
           });
-          return insertMany(item)
+
+          return insertMany(item || [])
             .then(() => item_count)
             .catch(err => {
               logger.error(`${err}`)
@@ -41,13 +38,9 @@ const sync = async (type, client) => {
             run = false
           }
         })
-        .catch((err) => {
-          logger.error(err)
-          run = false
-        })
     }
   } catch (err) {
-    logger.error(err.message)
+    logger.error(err)
   }
 }
 

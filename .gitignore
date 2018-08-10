@@ -2,3 +2,4 @@ node_modules
 cheese.log
 yarn-error.log
 yarn.lock
+logs

@@ -8,7 +8,7 @@ const ipfilter = require('./middleware/ipfilter')
 const { auth, wxauth } = require('./middleware/auth')
 const { target } = require('./middleware/target')
 const { goto } = require('./middleware/proxy')
-const { start } = require('./timingTask')
+const { start } = require('./updateIp')
 
 const wxRouter = require('./router/wx')
 const userRouter = require('./router/user')

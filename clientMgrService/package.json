@@ -2,7 +2,7 @@
   "name": "client-manager-service",
   "version": "0.0.1",
   "description": "",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,7 +18,6 @@
     "log4js": "^3.0.2",
     "mongoose": "^5.2.5",
     "morgan": "^1.9.0",
-    "ramda": "^0.25.0",
-    "rx": "^4.1.0"
+    "ramda": "^0.25.0"
   }
 }

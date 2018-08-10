@@ -1,10 +1,11 @@
 const log4js = require('log4js')
 
 log4js.configure({
-  appenders: { cheese: { type: 'file', filename: 'cheese.log' }, console: { type: 'console'} },
+  pm2: true,
+  appenders: { cheese: { type: 'file', filename: 'logs/cheese.log' }, console: { type: 'console'} },
   categories: { default: { appenders: ['cheese', 'console'], level: 'error' } }
 });
 
-const logger = log4js.getLogger('cheese')
+const logger = log4js.getLogger('[gateway]')
 
 module.exports = logger

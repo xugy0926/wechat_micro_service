@@ -3,7 +3,6 @@ const createError = require('http-errors')
 const express = require('express')
 const morgan = require('morgan')
 
-const config = require('./config')
 const logger = require('./logger')
 const { findOne } = require('./db')
 const sync = require('./sync')

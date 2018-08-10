@@ -5,6 +5,5 @@ module.exports = {
     'sh.api.weixin.qq.com',
     'sz.api.weixin.qq.com',
     'hk.api.weixin.qq.com'
-  ],
-  updateCycle: 7000000
+  ]
 }

@@ -2,14 +2,14 @@ const Rx = require('rx')
 const axios = require('axios')
 
 const logger = require('./logger')
-const serviceConfig = require('./service_config')
+const serviceURL = require('./serviceURL')
 
 const interval = Rx.Observable.interval
 const timer = Rx.Observable.timer
 
 const updateIps = async (app) => {
   try {
-    await axios.get(`${serviceConfig['/client']}/client/ips`)
+    await axios.get(`${serviceURL['/client']}/client/ips/sync`)
       .then(response => response.data)
       .then(({ ips }) => { app.whiteips = ips })
   } catch (err) {

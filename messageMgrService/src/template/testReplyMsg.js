@@ -1,4 +1,10 @@
-const { text, image, voice, video, music, news } = require('./index')
+const {
+  text,
+  image,
+  voice,
+  video,
+  music,
+  news } = require('./index')
 
 const randomReply = (data) => {
   let replyList = []

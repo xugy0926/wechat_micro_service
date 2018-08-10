@@ -1,4 +1,4 @@
-const serviceConfig = require('../service_config')
+const serviceURL = require('../serviceURL')
 
 const wxtarget = (req, res, next) => {
   switch (req.body.MsgType) {
@@ -9,10 +9,10 @@ const wxtarget = (req, res, next) => {
     case 'shortvideo':
     case 'location':
     case 'link':
-      req.target = `${serviceConfig['/message']}/message/${req.body.MsgType}/${req.client.tag}`
+      req.target = `${serviceURL['/message']}/message/${req.body.MsgType}/${req.client.tag}`
       break
     case 'event': 
-      req.target = `${serviceConfig['/event/']}${req.body.MsgType}/${req.client.tag}`
+      req.target = `${serviceURL['/event/']}${req.body.MsgType}/${req.client.tag}`
     default:
       break
   }
