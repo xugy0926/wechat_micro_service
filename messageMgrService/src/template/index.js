@@ -1,83 +1,12 @@
-const text = ({ toUser, fromUser, createTime, content }) => {
+const createItem = ({ title, description, picurl, url }) => {
   return `
-  <xml>
-    <ToUserName><![CDATA[${toUser}]]></ToUserName>
-    <FromUserName><![CDATA[${fromUser}]]></FromUserName>
-    <CreateTime>${createTime}</CreateTime>
-    <MsgType><![CDATA[text]]></MsgType>
-    <Content><![CDATA[${content}]]></Content> 
-  </xml>
-  `
-}
-
-const image = ({ toUser, fromUser, createTime, mediaId }) => {
-  return `
-  <xml>
-    <ToUserName><![CDATA[${toUser}]]></ToUserName>
-    <FromUserName><![CDATA[${fromUser}]]></FromUserName>
-    <CreateTime>${createTime}</CreateTime>
-    <MsgType><![CDATA[image]]></MsgType>
-    <Image><MediaId><![CDATA[${mediaId}]]></MediaId></Image>
-  </xml>
-  `
-}
-
-const voice = ({ toUser, fromUser, createTime, mediaId }) => {
-  return `
-  <xml>
-    <ToUserName><![CDATA[${toUser}]]></ToUserName>
-    <FromUserName><![CDATA[${fromUser}]]></FromUserName>
-    <CreateTime>${createTime}</CreateTime>
-    <MsgType><![CDATA[voice]]></MsgType>
-    <Voice><MediaId><![CDATA[${mediaId}]]></MediaId></Voice>
-  </xml>
-  `
-}
-
-// TODO: fuck the Error in reply, why?
-const video = ({ toUser, fromUser, createTime, mediaId, title, description }) => {
-  return `
-  <xml>
-    <ToUserName><![CDATA[${toUser}]]></ToUserName>
-    <FromUserName><![CDATA[${fromUser}]]></FromUserName>
-    <CreateTime>${createTime}</CreateTime>
-    <MsgType><![CDATA[video]]></MsgType>
-    <Video>
-      <MediaId><![CDATA[${mediaId}]]></MediaId>
+    <item>
       <Title><![CDATA[${title}]]></Title>
       <Description><![CDATA[${description}]]></Description>
-    </Video>
-  </xml>
-  `
-}
-
-const music = ({ toUser, fromUser, createTime, title, description, musicUrl, hqMusicUrl, thumbMediaId }) => {
-  return `
-  <xml>
-    <ToUserName><![CDATA[${toUser}]]></ToUserName>
-    <FromUserName><![CDATA[${fromUser}]]></FromUserName>
-    <CreateTime>${createTime}</CreateTime>
-    <MsgType><![CDATA[music]]></MsgType>
-    <Music>
-      <Title><![CDATA[${title}]]></Title>
-      <Description><![CDATA[${description}]]></Description>
-      <MusicUrl><![CDATA[${musicUrl}]]></MusicUrl>
-      <HQMusicUrl><![CDATA[${hqMusicUrl}]]></HQMusicUrl>
-      <ThumbMediaId><![CDATA[${thumbMediaId}]]></ThumbMediaId>
-    </Music>
-  </xml>
-  `
-}
-
-const createItem = ({ title, description, picurl, url}) => {
-  return `
-  <item>
-    <Title><![CDATA[${title}]]></Title>
-    <Description><![CDATA[${description}]]></Description>
-    <PicUrl><![CDATA[${picurl}]]></PicUrl>
-    <Url><![CDATA[${url}]]></Url>
-  </item>
-  `
+      <PicUrl><![CDATA[${picurl}]]></PicUrl>
+      <Url><![CDATA[${url}]]></Url>
+    </item>
+    `
 }
 
 const createItems = (items) => {
@@ -87,23 +16,90 @@ const createItems = (items) => {
   })
 
   return `
-  <ArticleCount>${items.length}</ArticleCount>
-  <Articles>
-    ${itemsTmpl}
-  </Articles>
-  `
+    <ArticleCount>${items.length}</ArticleCount>
+    <Articles>
+      ${itemsTmpl}
+    </Articles>
+    `
 }
 
-const news = ({ toUser, fromUser, createTime, items }) => {
-  return `
-  <xml>
-    <ToUserName><![CDATA[${toUser}]]></ToUserName>
-    <FromUserName><![CDATA[${fromUser}]]></FromUserName>
-    <CreateTime>${createTime}</CreateTime>
-    <MsgType><![CDATA[news]]></MsgType>
-    ${createItems(items)}
-  </xml>  
-  `
-}
+module.exports = {
+  'text': ({ ToUserName, FromUserName, CreateTime, Content }) => {
+    return `
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]></FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[text]]></MsgType>
+        <Content><![CDATA[${Content}]]></Content> 
+      </xml>
+      `
+  },
+  'image': ({ ToUserName, FromUserName, CreateTime, MediaId }) => {
+    return `
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]></FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[image]]></MsgType>
+        <Image><MediaId><![CDATA[${MediaId}]]></MediaId></Image>
+      </xml>
+      `
+  },
+  'voice': ({ ToUserName, FromUserName, CreateTime, MediaId }) => {
+    return `
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]></FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[voice]]></MsgType>
+        <Voice><MediaId><![CDATA[${MediaId}]]></MediaId></Voice>
+      </xml>
+      `
+  },
 
-module.exports = { text, image, voice, video, music, news }
+  // TODO: fuck the Error in reply, why?
+  'video': ({ ToUserName, FromUserName, CreateTime, MediaId, title, description }) => {
+    return `
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]></FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[video]]></MsgType>
+        <Video>
+          <MediaId><![CDATA[${MediaId}]]></MediaId>
+          <Title><![CDATA[${title}]]></Title>
+          <Description><![CDATA[${description}]]></Description>
+        </Video>
+      </xml>
+      `
+  },
+  'music': ({ ToUserName, FromUserName, CreateTime, title, description, musicUrl, hqMusicUrl, thumbMediaId }) => {
+    return `
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]></FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[music]]></MsgType>
+        <Music>
+          <Title><![CDATA[${title}]]></Title>
+          <Description><![CDATA[${description}]]></Description>
+          <MusicUrl><![CDATA[${musicUrl}]]></MusicUrl>
+          <HQMusicUrl><![CDATA[${hqMusicUrl}]]></HQMusicUrl>
+          <ThumbMediaId><![CDATA[${thumbMediaId}]]></ThumbMediaId>
+        </Music>
+      </xml>
+      `
+  },
+  'news': ({ ToUserName, FromUserName, CreateTime, items }) => {
+    return `
+      <xml>
+        <ToUserName><![CDATA[${ToUserName}]]></ToUserName>
+        <FromUserName><![CDATA[${FromUserName}]]></FromUserName>
+        <CreateTime>${CreateTime}</CreateTime>
+        <MsgType><![CDATA[news]]></MsgType>
+        ${createItems(items)}
+      </xml>  
+      `
+  }
+}

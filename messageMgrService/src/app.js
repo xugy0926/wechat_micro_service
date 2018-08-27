@@ -6,7 +6,7 @@ const morgan = require('morgan')
 const logger = require('./logger')
 const { AutoReply, ReceiveMessage } = require('./data')
 const reply = require('./reply')
-const executeCmd = require('./middleware/executeCmd')
+const parseCmd = require('./middleware/parseCmd')
 
 const app = express()
 
@@ -14,7 +14,7 @@ app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.post('/message/:type/:tag', executeCmd, (req, res, next) => {
+app.post('/message/:type/:tag', parseCmd, (req, res, next) => {
   ReceiveMessage.save(req.body)
     .then(reply)
     .then(res.send.bind(res))

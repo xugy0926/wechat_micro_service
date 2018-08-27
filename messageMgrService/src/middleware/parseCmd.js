@@ -1,21 +1,21 @@
 const R = require('ramda')
-const commands = require('../commands')
-const { text } = require('../template')
+const cmds = require('../cmds')
+const template = require('../template')
 
-const executeCmd = (req, res, next) => {
-  const { client, ...data } = req.body
+module.exports = (req, res, next) => {
+  const data = req.body
 
   if (data.MsgType === 'text' && data.FromUserName === client.adminOpenId) {
-    const fun = commands[R.trim(data.text.Content)]
+    const fun = cmds[R.trim(data.text.Content || '')]
     if (fun) {
-      fun(client, data.appId)
+      fun(data, args[1])
         .then(response => response.data)
         .then((ret) => {
-          res.send(text({
+          res.send(template['text']({
             toUser: data.FromUserName,
             fromUser: data.ToUserName,
             createTime: new Date().getTime(),
-            content: ret || 'no data'
+            content: ret || '指令已执行'
           }))
         }).catch(next)
     } else {
@@ -25,5 +25,3 @@ const executeCmd = (req, res, next) => {
     next()
   }
 }
-
-module.exports = executeCmd
